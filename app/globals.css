@@ -1,21 +1,87 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background-gradient: linear-gradient(135deg, #ff7eb3, #65d9e4);
+  --foreground: #ffffff;
+  --text-color: #171717;
+  --link-color: #ffffff;
+  --link-hover-color: #ffdd57;
+  --card-background: #ffffff;
+  --card-shadow: rgba(0, 0, 0, 0.1);
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  background: var(--background-gradient);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.layout-container {
+  width: 100%;
+  max-width: 768px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.header {
+  margin-top: 20px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--foreground);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.nav {
+  margin-top: 10px;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--link-color);
+  font-size: 1rem;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--link-hover-color);
+}
+
+.main-content {
+  height: 500px;
+  background: var(--card-background);
+  margin: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px var(--card-shadow);
+}
+
+.footer {
+  margin-top: auto;
+  padding: 10px;
+  color: var(--foreground);
+  font-size: 0.9rem;
+  background: transparent;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
