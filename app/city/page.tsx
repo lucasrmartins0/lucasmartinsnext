@@ -1,6 +1,5 @@
 import React from 'react';
-import { Municipality } from '../models/interfaces';
-import MunicipalityCard from '../components/MunicipalityCard/MunicipalityCard';
+import { City } from '../models/interfaces';
 import useSWR from 'swr';
 
 'use client'
@@ -8,19 +7,19 @@ import useSWR from 'swr';
 export default function City() {
 
     const fetcher = (url: string) => fetch(url).then(res => res.json())
-    const { data: municipalities, error, isLoading } = useSWR<Municipality[], Error>('/api/municipalities');
+    const { data: city, error, isLoading } = useSWR<City[], Error>('/api/city');
     
     if (error) return <div>Failed to load</div>;
     if (isLoading) return <div>Loading...</div>;
-    if (!municipalities) return <div>No data available</div>;
+    if (!city) return <div>No data available</div>;
 
     return <>
-        {municipalities.map((municipality) => (
-            <MunicipalityCard 
-                key={municipality.id} 
-                id={municipality.id}
-                name={municipality.name}
-                district_name={municipality.district_name}
+        {city.map((city) => (
+            <cityCard 
+                key={city.id} 
+                id={city.id}
+                name={city.name}
+                district_name={city.district_name}
             />
         ))}
     </>
