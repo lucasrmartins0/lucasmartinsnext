@@ -1,12 +1,6 @@
 import internal from "stream";
 
-export interface Municipality {
-    id: string;
-    district_name: string;
-    name: string;
-}
-export interface City {
+export interface Product {
     id: string;
     name: string;
-    population: BigInteger;
 }

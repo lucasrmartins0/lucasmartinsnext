@@ -1,6 +1,6 @@
 import React from 'react'
 
 export async function GET() {
-  return fetch('https://api.carrismetropolitana.pt/municipalities').then(res => res.json()).then(data => Response.json(data))
+  return fetch('https://deisishop.pythonanywhere.com/products').then(res => res.json()).then(data => Response.json(data))
 }
 
