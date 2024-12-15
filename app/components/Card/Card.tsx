@@ -12,7 +12,7 @@ const Card: React.FC<CardProps> = ({ title, description, price, imageUrl }) => {
   return (
     <div className={`${styles.card} max-w-sm rounded-lg overflow-hidden shadow-md bg-white`}>
       <Image
-        className="w-full h-48 object-cover"
+        className="w-full h-48 p-6 object-cover"
         src={imageUrl}
         alt={title}
         width={500}

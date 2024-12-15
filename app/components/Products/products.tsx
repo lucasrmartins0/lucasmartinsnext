@@ -1,37 +1,28 @@
-// components/Products/products.tsx
-'use client'; // Necessário para usar useEffect no Next.js App Router
-import React, { useEffect, useState } from 'react';
-import Card from '../Card/Card'; // Importa o componente Card
-import { Product } from '../../models/interfaces'; // Importa a interface Product
+'use client'; 
+
+import React from 'react';
+import useSWR from 'swr';
+import Card from '../Card/Card';
+import { Product } from '../../models/interfaces';
+
+// Função para buscar os dados da API
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Products = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  // Usa o hook useSWR para buscar os produtos
+  const { data: products, error, isLoading } = useSWR<Product[]>('/api/products', fetcher);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('/api/products'); // Pega os dados da API interna
-        const data: Product[] = await response.json();
-        setProducts(data);
-      } catch (error) {
-        console.error('Erro ao buscar produtos:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  if (error) return <div className="text-red-600 text-center">Erro ao carregar os produtos.</div>;
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">Nossos Produtos</h1>
-      {loading ? (
-        <div className="text-center text-gray-600">Carregando...</div>
+    <div className="min-h-screen flex flex-col items-center p-6 bg-gray-100">
+      <h1 className="text-3xl font-bold text-center mb-6">Produtos</h1>
+
+      {isLoading ? (
+        <div className="text-center text-gray-600">Loading...</div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
+        <div className="grid grid-cols-1 gap-4 w-full max-w-screen-xl">
+          {products?.map((product) => (
             <Card
               key={product.id}
               title={product.name}

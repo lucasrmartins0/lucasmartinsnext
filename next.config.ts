@@ -1,8 +1,5 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-    images: {
+module.exports = {
+  images: {
     domains: ['deisishop.pythonanywhere.com'],
-  },};
-
-export default nextConfig;
+  },
+};
