@@ -1,15 +1,15 @@
-'use client'; 
+'use client';
 
 import React from 'react';
 import useSWR from 'swr';
 import Card from '../Card/Card';
 import { Product } from '../../models/interfaces';
 
-// Função para buscar os dados da API
+// importar os dados da API
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Products = () => {
-  // Usa o hook useSWR para buscar os produtos
+  // useSWRpara importar os produtos
   const { data: products, error, isLoading } = useSWR<Product[]>('/api/products', fetcher);
 
   if (error) return <div className="text-red-600 text-center">Erro ao carregar os produtos.</div>;
@@ -21,14 +21,18 @@ const Products = () => {
       {isLoading ? (
         <div className="text-center text-gray-600">Loading...</div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 w-full max-w-screen-xl">
+        <div className="grid grid-cols-1 gap-6 w-full max-w-screen-xl">
           {products?.map((product) => (
             <Card
               key={product.id}
-              title={product.name}
+              id={product.id}
+              title={product.title}
+              price={product.price}
               description={product.description}
-              price={`R$ ${product.price.toFixed(2)}`}
-              imageUrl={product.imageUrl}
+              category={product.category.name} 
+              imageUrl={product.image}
+              rating={product.rating.rate}    
+              ratingCount={product.rating.count} 
             />
           ))}
         </div>

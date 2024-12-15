@@ -1,7 +1,20 @@
-export interface Product {
-    id: string;
+
+export interface Category {
     name: string;
-    description: string;
+  }
+  
+  export interface Rating {
+    rate: number;
+    count: number;
+  }
+  
+  export interface Product {
+    id: string;
+    title: string;
     price: number;
-    imageUrl: string;
-}
+    description: string;
+    category: Category;
+    image: string;
+    rating: Rating;
+  }
+  
