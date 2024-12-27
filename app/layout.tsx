@@ -30,9 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-      <Header></Header>
-      <main className="overflow-hidden" >{children}</main>
-      <Footer></Footer>
+        <Header></Header>
+        <main className="overflow-hidden w-[90vw] h-[90vw] ">
+          {children}
+        </main>
+        <Footer></Footer>
       </body>
     </html>
   );
