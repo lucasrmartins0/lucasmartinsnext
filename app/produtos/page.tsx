@@ -4,7 +4,7 @@ import Products from '../components/Products/products';
 
 const ProdutosPage = () => {
   return (
-    <main className="overflow-x-hidden">
+    <main className="w-full h-full">
       <Products /> 
     </main>
   );
