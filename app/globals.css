@@ -27,7 +27,9 @@ body {
   align-items: center;
 
   /* Fundo e Estética */
-  background: url('https://cdn.pixabay.com/photo/2016/06/02/02/33/triangles-1430105_1280.png');
+  /* background: url('https://cdn.pixabay.com/photo/2016/06/02/02/33/triangles-1430105_1280.png');  */
+  background: url('https://images.unsplash.com/photo-1574901200090-ca061722bdb9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); 
+  /* background-image: url(/app/images/DeisiSHOP.png); */
   background-size: cover; 
   background-position: center; 
   background-repeat: no-repeat;
@@ -42,6 +44,6 @@ main {
   overflow-y: auto;
 
   /* Fundo */
-  background: whitesmoke;
+  background: whitesmoke; 
 }
 
