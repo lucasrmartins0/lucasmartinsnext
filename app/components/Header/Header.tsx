@@ -11,8 +11,8 @@ export default function Header() {
       <h1><b>DEISI SHOP</b></h1>
       <nav className={styles.nav}>
         <Link href="/" >Home </Link>
-        <Link href="/tecnologias" >Tecnologias</Link>
         <Link href="/produtos" >Produtos</Link>
+        <Link href="/tecnologias" >Carrinho</Link>
 
       </nav>
     </header>
