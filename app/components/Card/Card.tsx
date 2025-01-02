@@ -1,88 +1,47 @@
+import React from 'react';
 import Image from 'next/image';
+import { Product } from '../../models/interfaces';
 
 interface CardProps {
-  id: string;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  imageUrl: string;
-  rating: number;
-  ratingCount: number;
-  addItemToCart: (product: {
-    id: string;
-    title: string;
-    price: number;
-    description: string;
-    category: string;
-    imageUrl: string;
-    rating: number;
-    ratingCount: number;
-  }) => void;
+  product: Product;
+  addItemToCart: (product: Product) => void;
 }
 
-const Card: React.FC<CardProps> = ({
-  id,
-  title,
-  price,
-  description,
-  category,
-  imageUrl,
-  rating,
-  ratingCount,
-  addItemToCart,
-}) => {
+const Card: React.FC<CardProps> = ({ product, addItemToCart }) => {
   const handleAddToCart = () => {
-    const product = {
-      id,
-      title,
-      price,
-      description,
-      category,
-      imageUrl,
-      rating,
-      ratingCount,
-    };
     addItemToCart(product);
   };
 
   return (
-    <div className="max-w-sm rounded-lg overflow-hidden shadow-md bg-white">
+    <div className="border rounded p-4 bg-white">
       <Image
-        className="w-full h-48 object-cover"
-        src={imageUrl}
-        alt={title}
-        width={500}
-        height={300}
-        layout="responsive"
+        src={product.imageUrl}
+        alt={product.title}
+        width={300}
+        height={200}
+        className="object-cover"
       />
-
-      <div className="p-4">
-        <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
-        <p className="text-sm text-gray-600 mt-2">{description}</p>
-
-        <p className="text-sm text-gray-500 mt-2">
-          <strong>Categoria:</strong> {category}
-        </p>
-
-        <p className="text-sm text-yellow-500 mt-2">
-          <strong>Avaliação:</strong> {rating} ⭐ (Baseado em {ratingCount} avaliações)
-        </p>
-
-        <div className="mt-4 flex items-center justify-between">
-          <span className="text-lg font-bold text-gray-900">
-            $ {price.toFixed(2)}
-          </span>
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            onClick={handleAddToCart}
-          >
-            Comprar
-          </button>
-        </div>
+      <h2 className="text-lg font-semibold">{product.title}</h2>
+      <p className="text-sm text-gray-600">{product.description}</p>
+      <p>{product.price.toFixed(2)} $</p>
+      {/* Exibir Rating */}
+      <div className="flex items-center gap-2 mt-2">
+        <span className="text-yellow-500 font-semibold">
+          ⭐ {product.rating.rate.toFixed(1)}
+        </span>
+        <span className="text-sm text-gray-500">
+          ({product.rating.count} avaliações)
+        </span>
       </div>
+      <button
+        onClick={handleAddToCart}
+        className="px-4 py-2 mt-2 bg-blue-500 text-white rounded"
+      >
+        Comprar
+      </button>
     </div>
   );
 };
 
 export default Card;
+
