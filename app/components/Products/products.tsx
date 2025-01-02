@@ -4,29 +4,41 @@ import React, { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import Card from '../Card/Card';
 import { Product } from '../../models/interfaces';
+import { FaShoppingCart } from 'react-icons/fa';
 
 // Função para buscar os dados da API
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Products = () => {
-  // 1. Buscar os produtos via SWR
   const { data, error, isLoading } = useSWR<Product[]>('/api/products', fetcher);
 
-  // 2. Criar estado para controlar o texto da pesquisa
   const [search, setSearch] = useState('');
-
-  // 3. Criar estado para armazenar produtos filtrados
   const [filteredData, setFilteredData] = useState<Product[]>([]);
 
-  // 4. useEffect para filtrar produtos sempre que 'search' ou 'data' mudarem
-  useEffect(() => {
-    if (!data) return; // Se ainda não temos data, não faz nada
+  const [cart, setCart] = useState<Product[]>([]);
 
+  useEffect(() => {
+    const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    if (!data) return;
     const newFilteredData = data.filter((product) =>
       product.title.toLowerCase().includes(search.toLowerCase())
     );
     setFilteredData(newFilteredData);
   }, [search, data]);
+
+  const addItemToCart = (product: Product) => {
+    setCart((prevCart) => [...prevCart, product]);
+  };
 
   if (error) {
     return <div className="text-red-600 text-center">Erro ao carregar os produtos.</div>;
@@ -36,12 +48,25 @@ const Products = () => {
     <div className="min-h-screen flex flex-col items-center">
       <div className="w-full max-w-screen-xl flex justify-between items-center py-6 px-4">
         <h1 className="text-3xl font-bold">Produtos</h1>
-        <input
-          placeholder="Pesquisar"
-          className="border-2 p-1 rounded-lg"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className="flex items-center space-x-4">
+          <input
+            placeholder="Pesquisar"
+            className="border-2 p-1 rounded-lg"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button
+            className="text-gray-600 hover:text-gray-800 transition-colors"
+            aria-label="Carrinho de compras"
+          >
+            <FaShoppingCart size={24} />
+            {cart.length > 0 && (
+              <span className="ml-1 text-sm font-semibold text-blue-600">
+                {cart.length}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
 
       {isLoading ? (
@@ -59,8 +84,20 @@ const Products = () => {
               imageUrl={product.image}
               rating={product.rating.rate}
               ratingCount={product.rating.count}
+              addItemToCart={addItemToCart} 
             />
           ))}
+        </div>
+      )}
+
+      {cart.length > 0 && (
+        <div className="w-full max-w-screen-xl px-4 mt-10">
+          <h2 className="text-2xl font-bold mb-2">Carrinho</h2>
+          <ul className="list-disc list-inside">
+            {cart.map((item) => (
+              <li key={item.id}>{item.title} - $ {item.price.toFixed(2)}</li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

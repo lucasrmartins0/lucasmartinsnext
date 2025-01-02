@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+// Ajuste a interface para receber a função addItemToCart
 interface CardProps {
   id: string;
   title: string;
@@ -9,6 +10,18 @@ interface CardProps {
   imageUrl: string;
   rating: number;
   ratingCount: number;
+
+  // Nova prop:
+  addItemToCart: (product: {
+    id: string;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    imageUrl: string;
+    rating: number;
+    ratingCount: number;
+  }) => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -20,7 +33,22 @@ const Card: React.FC<CardProps> = ({
   imageUrl,
   rating,
   ratingCount,
+  addItemToCart,
 }) => {
+  const handleAddToCart = () => {
+    const product = {
+      id,
+      title,
+      price,
+      description,
+      category,
+      imageUrl,
+      rating,
+      ratingCount,
+    };
+    addItemToCart(product);
+  };
+
   return (
     <div className="max-w-sm rounded-lg overflow-hidden shadow-md bg-white">
       <Image
@@ -45,8 +73,13 @@ const Card: React.FC<CardProps> = ({
         </p>
 
         <div className="mt-4 flex items-center justify-between">
-          <span className="text-lg font-bold text-gray-900">R$ {price.toFixed(2)}</span>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+          <span className="text-lg font-bold text-gray-900">
+            $ {price.toFixed(2)}
+          </span>
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            onClick={handleAddToCart}
+          >
             Comprar
           </button>
         </div>
