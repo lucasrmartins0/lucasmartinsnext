@@ -9,6 +9,7 @@ export interface Category {
   }
   
   export interface Product {
+    imageUrl: string | StaticImport;
     id: string;
     title: string;
     price: number;

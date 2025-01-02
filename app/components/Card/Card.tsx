@@ -1,6 +1,5 @@
 import Image from 'next/image';
 
-// Ajuste a interface para receber a função addItemToCart
 interface CardProps {
   id: string;
   title: string;
@@ -10,8 +9,6 @@ interface CardProps {
   imageUrl: string;
   rating: number;
   ratingCount: number;
-
-  // Nova prop:
   addItemToCart: (product: {
     id: string;
     title: string;

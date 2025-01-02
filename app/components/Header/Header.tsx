@@ -1,7 +1,7 @@
 'use client'; 
 import { useState } from 'react'
 import Link from 'next/link';
-import styles from './Header.module.css'; // Ajuste conforme o seu projeto
+import styles from './Header.module.css'; 
 
 export default function Header() {
   const [search, setSearch] = useState('');
@@ -12,6 +12,7 @@ export default function Header() {
       <nav className={styles.nav}>
         <Link href="/" >Home </Link>
         <Link href="/produtos" >Produtos</Link>
+        <Link href="/carrinho" >Carrinho</Link>
       </nav>
     </header>
   );

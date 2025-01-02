@@ -1,7 +1,14 @@
-import React from 'react'
+'use client';
 
-export default function page() {
+import React from 'react';
+import Carrinho from '../components/Carrinho/carrinho';
+
+const CarrinhoPage = () => {
   return (
-    <div>carrinho</div>
-  )
-}
+    <main className="w-full h-full">
+      <Carrinho /> 
+    </main>
+  );
+};
+
+export default CarrinhoPage;

@@ -1,20 +1,23 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
-import Card from '../Card/Card';
 import { Product } from '../../models/interfaces';
+import Card from '../Card/Card';
 import { FaShoppingCart } from 'react-icons/fa';
 
-// Função para buscar os dados da API
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const Products = () => {
+export default function ProductsPage() {
+  const router = useRouter();
+
+  // Buscar produtos
   const { data, error, isLoading } = useSWR<Product[]>('/api/products', fetcher);
 
+  // Estados
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState<Product[]>([]);
-
   const [cart, setCart] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -28,6 +31,7 @@ const Products = () => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
+  // Filtrar produtos
   useEffect(() => {
     if (!data) return;
     const newFilteredData = data.filter((product) =>
@@ -36,13 +40,12 @@ const Products = () => {
     setFilteredData(newFilteredData);
   }, [search, data]);
 
+  // Adicionar produto ao carrinho
   const addItemToCart = (product: Product) => {
     setCart((prevCart) => [...prevCart, product]);
   };
 
-  if (error) {
-    return <div className="text-red-600 text-center">Erro ao carregar os produtos.</div>;
-  }
+  if (error) return <div>Erro ao carregar produtos</div>;
 
   return (
     <div className="min-h-screen flex flex-col items-center">
@@ -51,17 +54,17 @@ const Products = () => {
         <div className="flex items-center space-x-4">
           <input
             placeholder="Pesquisar"
-            className="border-2 p-1 rounded-lg"
+            className="border-2 p-1 rounded"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
           <button
-            className="text-gray-600 hover:text-gray-800 transition-colors"
-            aria-label="Carrinho de compras"
+            className="text-gray-600 hover:text-gray-800 relative"
+            onClick={() => router.push('/carrinho')}
           >
             <FaShoppingCart size={24} />
             {cart.length > 0 && (
-              <span className="ml-1 text-sm font-semibold text-blue-600">
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                 {cart.length}
               </span>
             )}
@@ -70,7 +73,7 @@ const Products = () => {
       </div>
 
       {isLoading ? (
-        <div className="text-center text-gray-600">Loading...</div>
+        <div>Carregando...</div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-screen-xl px-4 pb-6">
           {filteredData.map((product) => (
@@ -84,24 +87,11 @@ const Products = () => {
               imageUrl={product.image}
               rating={product.rating.rate}
               ratingCount={product.rating.count}
-              addItemToCart={addItemToCart} 
+              addItemToCart={addItemToCart}
             />
           ))}
         </div>
       )}
-
-      {cart.length > 0 && (
-        <div className="w-full max-w-screen-xl px-4 mt-10">
-          <h2 className="text-2xl font-bold mb-2">Carrinho</h2>
-          <ul className="list-disc list-inside">
-            {cart.map((item) => (
-              <li key={item.id}>{item.title} - $ {item.price.toFixed(2)}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
-};
-
-export default Products;
+}
