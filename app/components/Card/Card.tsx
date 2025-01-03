@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({ product, addItemToCart }) => {
   return (
     <div className="border rounded p-4 bg-white">
       <Image
-        src={product.imageUrl}
+        src={product.image}
         alt={product.title}
         width={300}
         height={200}
@@ -24,7 +24,6 @@ const Card: React.FC<CardProps> = ({ product, addItemToCart }) => {
       <h2 className="text-lg font-semibold">{product.title}</h2>
       <p className="text-sm text-gray-600">{product.description}</p>
       <p>{product.price.toFixed(2)} $</p>
-      {/* Exibir Rating */}
       <div className="flex items-center gap-2 mt-2">
         <span className="text-yellow-500 font-semibold">
           ⭐ {product.rating.rate.toFixed(1)}
@@ -44,4 +43,3 @@ const Card: React.FC<CardProps> = ({ product, addItemToCart }) => {
 };
 
 export default Card;
-

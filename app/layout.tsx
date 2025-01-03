@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body >
         <Header></Header>
         <main className="overflow-hidden w-[90vw] h-[90vw] ">
           {children}
